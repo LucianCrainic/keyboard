@@ -5,21 +5,8 @@
  * This file contains the implementation of custom keycodes and their corresponding
  * string outputs for the ZSA Moonlander keyboard.
  */
-#include "keycodes.h"
 #include "keymap_italian.h"
-#include "quantum_keycodes.h"
 #include QMK_KEYBOARD_H
-
-/**
- * @enum custom_keycodes
- * @brief Custom keycodes for the keyboard firmware.
- *
- * This enumeration defines custom keycodes that extend beyond the standard keycodes.
- * The custom keycodes start from SAFE_RANGE to avoid conflicts with predefined keycodes.
- */
-enum custom_keycodes {
-    PASSWD = SAFE_RANGE,
-};
 
 /**
  * @enum custom_layers
@@ -33,27 +20,6 @@ enum custom_layers {
      _BETA,
      _GAMMA,
 };
-
-/**
- * Processes custom keycodes for the user.
- *
- * @param keycode The keycode to process.
- * @param record The key record containing the event data.
- * @return Returns false if the keycode was handled, true otherwise.
- *
- * This function checks if a key is pressed and processes the custom keycode PASSWD.
- * When PASSWD is pressed, it sends the string "22!ShelbyCat11" and prevents further processing of the keycode.
- */
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        switch (keycode) {
-            case PASSWD:
-                SEND_STRING("22!ShelbyCat11");
-                return false;
-        }
-    }
-    return true;
-}
 
 /**
  * This file defines the keymap layers for the Iris keyboard.
@@ -93,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, KC_UP, _______, _______, _______,           _______, _______,  KC_BTN1, KC_MS_U, KC_BTN2, _______, _______,
         _______, _______, KC_LEFT, KC_DOWN, KC_RIGHT, _______, _______,           _______,  KC_WH_U, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D, _______,
         _______, _______, _______, _______, _______, _______,                             _______, _______, _______, _______, _______, _______,
-        PASSWD, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, QK_BOOT,
+        _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, QK_BOOT,
                                             _______, _______, _______,           _______, _______, _______
     ),
 
