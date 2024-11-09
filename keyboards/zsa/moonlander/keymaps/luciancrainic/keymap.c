@@ -1,46 +1,89 @@
+/**
+ * @file keymap.c
+ * @brief Custom keymap for the ZSA Moonlander keyboard.
+ *
+ * This file contains the implementation of custom keycodes and their corresponding
+ * string outputs for the ZSA Moonlander keyboard.
+ */
 #include "keycodes.h"
+#include "keymap_italian.h"
 #include "quantum_keycodes.h"
 #include QMK_KEYBOARD_H
 
-// enum that defines the custom keycodes implemented in the keymap.
+/**
+ * @enum custom_keycodes
+ * @brief Custom keycodes for the keyboard firmware.
+ *
+ * This enumeration defines custom keycodes that extend beyond the standard keycodes.
+ * The custom keycodes start from SAFE_RANGE to avoid conflicts with predefined keycodes.
+ */
 enum custom_keycodes {
     PASSWD = SAFE_RANGE,
 };
 
+/**
+ * @enum custom_layers
+ * @brief Defines custom layers for the keyboard firmware.
+ *
+ * This enumeration defines the different custom layers used in the keyboard
+ * firmware. Each layer corresponds to a specific keymap configuration.
+ */
+enum custom_layers {
+     _DELTA,
+     _BETA,
+     _GAMMA,
+};
+
+/**
+ * Processes custom keycodes for the user.
+ *
+ * @param keycode The keycode to process.
+ * @param record The key record containing the event data.
+ * @return Returns false if the keycode was handled, true otherwise.
+ *
+ * This function checks if a key is pressed and processes the custom keycode PASSWD.
+ * When PASSWD is pressed, it sends the string "22!ShelbyCat11" and prevents further processing of the keycode.
+ */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        // this case handles all the custom keycodes.
-        case PASSWD:
-            if (record->event.pressed) {
+    if (record->event.pressed) {
+        switch (keycode) {
+            case PASSWD:
                 SEND_STRING("22!ShelbyCat11");
-            }
-            return false;
+                return false;
+        }
     }
     return true;
 }
 
-enum layers {
-    _DELTA,
-    _BETA,
-    _GAMMA,
-};
-
+/**
+ * This file defines the keymap layers for the Iris keyboard.
+ *
+ * Layers:
+ * - _DELTA: Default layer with standard QWERTY layout and some custom key bindings.
+ * - _BETA: Secondary layer with custom key bindings for special characters and shortcuts.
+ * - _GAMMA: Tertiary layer with function keys and mouse controls.
+ *
+ * Keymap Layout:
+ * - Each layer is defined using the LAYOUT macro.
+ * - The keymap is a 2D array where each element represents a key in the matrix.
+ * - Special keycodes and macros are used for custom functionality.
+ */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_DELTA] = LAYOUT(
         KC_PSCR,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,  _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MUTE,
         KC_MINS,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T, _______,           _______, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_SLSH,
-        KC_GRV,   HOME_A,  HOME_S,  HOME_D,  HOME_F,  KC_G,  _______,           _______, KC_H,   HOME_J,  HOME_K,  HOME_L, HOME_SCLN, KC_QUOT,
+        KC_GRV,   LGUI_T(KC_A),  LALT_T(KC_S),  LSFT_T(KC_D),  LCTL_T(KC_F),  KC_G,  _______,           _______, KC_H,    RCTL_T(KC_J),  RSFT_T(KC_K),  LALT_T(KC_L), RGUI_T(KC_SCLN), KC_QUOT,
         KC_HYPR, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                             KC_N,    KC_M,    KC_COMM, KC_DOT , KC_EQL, KC_MEH,
         _______, _______, _______, _______, _______,          KC_TAB,            CW_TOGG,          _______, _______, _______, _______, _______,
-                                            KC_SPC,   KC_ENT,  MO(1),            MO(2), KC_ESC,  KC_BSPC
+                                            MO(1),   KC_ENT,  KC_SPC,            KC_BSPC, KC_ESC,  MO(2)
     ),
 
     [_BETA] = LAYOUT(
-        _______, _______, C(KC_Z), C(KC_A), RCS(KC_V), RCS(KC_C), _______,           _______, C(KC_PGUP), KC_PGDN, KC_PGUP, C(KC_PGDN), _______, _______,
-        _______, KC_QUOTE, KC_LABK, KC_RABK, KC_DQUO, KC_DOT,     _______,           _______, KC_AMPR, KC_SCLN, KC_LBRC, KC_RBRC, KC_PERC, _______,
-        _______, KC_EXLM, KC_MINS, KC_PLUS, KC_EQL , KC_HASH,     _______,           _______,  KC_PIPE, KC_COLN, KC_LPRN, KC_RPRN, KC_QUES, _______,
-        _______, KC_CIRC,KC_SLSH, KC_ASTR, KC_BSLS, KC_UNDS,                                    KC_TILD,  KC_DLR, KC_LCBR, KC_RCBR, KC_AT, _______,
+        IT_AGRV, _______, C(KC_Z), C(KC_A), RCS(KC_V), RCS(KC_C), _______,           _______, C(KC_PGUP), KC_PGDN, KC_PGUP, C(KC_PGDN), _______, IT_OGRV,
+        IT_EGRV, KC_QUOTE, KC_LABK, KC_RABK, KC_DQUO, KC_DOT,     _______,           _______, KC_AMPR, KC_SCLN, KC_LBRC, KC_RBRC, KC_PERC, IT_UGRV,
+        IT_EACU, KC_EXLM, KC_MINS, KC_PLUS, KC_EQL , KC_HASH,     _______,           _______,  KC_PIPE, KC_COLN, KC_LPRN, KC_RPRN, KC_QUES, _______,
+        IT_IGRV, KC_CIRC,KC_SLSH, KC_ASTR, KC_BSLS, KC_UNDS,                                    KC_TILD,  KC_DLR, KC_LCBR, KC_RCBR, KC_AT, _______,
         _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, _______,
                                             _______, _______, _______,                       _______, _______, _______
     ),
@@ -64,7 +107,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ),
 };
 
-// The following code is used to disable the RGB lighting when the CAPS_LOCK key is pressed.
+/**
+ * @brief Toggles the RGB lighting based on the Caps Word state.
+ *
+ * This function is called when the Caps Word feature is activated or deactivated.
+ * When activated, it disables the RGB lighting. When deactivated, it enables the RGB lighting.
+ *
+ * @param active A boolean indicating whether the Caps Word feature is active.
+ */
 void caps_word_set_user(bool active) {
     if (active) {
         rgblight_disable();
