@@ -5,7 +5,9 @@
  * This file contains the implementation of custom keycodes and their corresponding
  * string outputs for the ZSA Moonlander keyboard.
  */
+#include "keycodes.h"
 #include "keymap_italian.h"
+#include "quantum_keycodes_legacy.h"
 #include QMK_KEYBOARD_H
 
 /**
@@ -56,11 +58,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_GAMMA] = LAYOUT(
         KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  , _______,           _______, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
-        _______, _______, _______, KC_UP, _______, _______, _______,           _______, _______,  KC_BTN1, KC_MS_U, KC_BTN2, _______, _______,
+        _______, _______, _______, KC_UP, _______, _______, _______,           _______, _______,  _______, KC_MS_U, _______, _______, _______,
         _______, _______, KC_LEFT, KC_DOWN, KC_RIGHT, _______, _______,           _______,  KC_WH_U, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D, _______,
         _______, _______, _______, _______, _______, _______,                             _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, QK_BOOT,
-                                            _______, _______, _______,           _______, _______, _______
+                                            _______, KC_BTN2, KC_BTN1,           _______, _______, _______
     ),
 
     // [TEMPLATE] = LAYOUT(
